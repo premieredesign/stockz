@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios/index';
 
 /*
     This will set or delete the Authorization Token in Headers.
