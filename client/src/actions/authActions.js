@@ -1,5 +1,5 @@
 import {GET_ERRORS, SET_LOGGEDIN_USER} from "./types";
-import {setAuthToken} from "../utils/setAuthToken";
+import {setAuthTokenHeader} from "../utils/setAuthTokenHeader";
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
@@ -13,10 +13,10 @@ export const loginUser = (userdata) => (dispatch) => {
             // Set token in localstorage
             localStorage.setItem('jwtToken', token);
             // Set the Authorization header with token.
-            setAuthToken(token);
+            setAuthTokenHeader(token);
             // Decode the user data in token
             const decoded = jwt_decode(token);
-            // Pass User data to payload object to reducer
+            // Pass User data to payload object for reducer
             dispatch(setLoggedInUser(decoded));
         })
         .catch((e) => dispatch({
@@ -31,4 +31,11 @@ export const setLoggedInUser = (decoded) => {
         type: SET_LOGGEDIN_USER,
         payload: decoded
     }
+};
+
+// Logout User
+export const logoutUser = () => (dispatch) => {
+    localStorage.removeItem('jwtToken');
+    setAuthTokenHeader(false);
+    dispatch(setLoggedInUser({}));
 };
