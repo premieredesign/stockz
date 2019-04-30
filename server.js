@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
+const users = require('./routes/api/users');
 const inventory = require('./routes/api/inventory');
 
 const app = express();
@@ -11,6 +12,9 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+
+
 // Setup MonogoDB
 const db = require('./config/keys').mongoSRV;
 mongoose
@@ -18,12 +22,19 @@ mongoose
     .then(() => console.log('> Database: connected'))
     .catch((e) => console.error(e));
 
+
+
+
 // Setup Passport
 app.use(passport.initialize());
 // Passport Config
 require('./config/passport')(passport);
 
+
+
+
 // Routes setup
+app.use('/api/users', users);
 app.use('/api/inventory', inventory);
 
 
