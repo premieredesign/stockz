@@ -50,6 +50,7 @@ class AddStockModal extends React.Component {
 
     handleClose = () => {
         this.setState({ show: false });
+        document.getElementById('stock').reset();
     };
 
     handleShow = () => {
@@ -58,12 +59,13 @@ class AddStockModal extends React.Component {
 
     onAddStock = () => {
         this.props.addStockzItem(this.state);
+        document.getElementById('stock').reset();
         this.handleClose();
     };
 
     onImageUpload = (e) => {
         console.log('e', e.target.files[0])
-    }
+    };
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
