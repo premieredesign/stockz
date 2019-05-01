@@ -1,3 +1,4 @@
+![alt text](http://url/to/img.png)
 # Stockz
 StockX coding challenge for Interview
 
