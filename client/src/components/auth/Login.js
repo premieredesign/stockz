@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {FormInputGroup} from "../shared/FormInputGroup";
+import {loginUser} from "../../actions/authActions";
 
 
 class Login extends Component {
@@ -15,6 +16,22 @@ class Login extends Component {
         this.onLogin = this.onLogin.bind(this);
     }
 
+
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors})
+        }
+    }
 
 
     onChange = (e) => {
@@ -38,7 +55,7 @@ class Login extends Component {
                     <div className="row">
                         <div className="col-md-8 m-auto">
                             <h1 className="display-4 text-center">Log In</h1>
-                            <p className="lead text-center">Sign in to your Master Polyglot Developer account</p>
+                            <p className="lead text-center">Sign in to your StockZ accountt</p>
                             <form onSubmit={this.onLogin}>
                                 <FormInputGroup
                                     placeholder="Email Address"
@@ -76,4 +93,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, {loginUser})(Login);
