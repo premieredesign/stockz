@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {connect} from "react-redux";
 import { Card,CardImg, CardSubtitle, CardText, CardBody} from 'reactstrap';
-import {getStockzInventory} from "../../actions/inventoryActions";
+import {getStockzInventory, removeStockzItem} from "../../actions/inventoryActions";
 import {Button} from "react-bootstrap";
 import CardHeader from "reactstrap/es/CardHeader";
-import {FormModalInputGroup} from "../shared/FormModalInputGroup";
 import {showModal} from "../../actions/modalActions";
+import AddStockModal from "../modal/AddStockModal";
 
 
 const CardStyled = styled(Card)`
@@ -101,6 +101,7 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
+            inventory: [],
             show: false,
         };
         this.handleShow = this.handleShow.bind(this);
@@ -109,6 +110,10 @@ class Dashboard extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.showmodal) {
             this.setState({show: nextProps.showmodal})
+        }
+
+        if (nextProps.inventory) {
+            this.setState({inventory: nextProps.inventory})
         }
 
         if (nextProps.errors) {
@@ -136,6 +141,10 @@ class Dashboard extends Component {
         console.log('shofjdkfja;fdja;fjd;')
     };
 
+    handleRemove = (i) => {
+        this.props.removeStockzItem(this.state.inventory.items[i]._id);
+    };
+
 
 
     render() {
@@ -153,13 +162,14 @@ class Dashboard extends Component {
                                         <CardSubtitle className="portfolio-card-title">Style: {item.style}</CardSubtitle>
                                         <CardText className="portfolio-card-text">Size: {item.size}</CardText>
                                         <CardText className="portfolio-card-text">UPC: #{item.upc}</CardText>
-                                        <ButtonStyled>Remove</ButtonStyled>
+                                        <ButtonStyled onClick={() => this.handleRemove(index)}>Remove</ButtonStyled>
                                     </CardBodyStyled>
                                 </CardStyled>
                             </React.Fragment>
                         )
                     })}
                 </ShoeGrid>
+                <AddStockModal/>
             </div>
         );
     }
@@ -168,6 +178,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
     getStockzInventory: PropTypes.func.isRequired,
+    removeStockzItem: PropTypes.func.isRequired,
     showModal: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     inventory: PropTypes.object,
@@ -180,4 +191,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {getStockzInventory, showModal})(Dashboard);
+export default connect(mapStateToProps, {getStockzInventory, showModal, removeStockzItem})(Dashboard);

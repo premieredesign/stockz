@@ -52,10 +52,32 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
         upc: req.body.upc,
         shoeimage: req.body.shoeimage
     });
-    newInventory.save().then((post) => res.json(post)).catch((e) => res.json('this is error'));
+    newInventory.save()
+        .then(() => {
+            Inventory.find()
+                .then((items) => {
+                    res.json(items)
+                })
+        });
 
 });
 
+
+/*
+    @Route POST api/posts/unlike/:id
+    @desc unlike a post
+    @access private
+ */
+router.post('/delete/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log('req', req.params.id);
+    Inventory.findOneAndRemove({_id: req.params.id})
+        .then(() => {
+            Inventory.find()
+                .then((items) => {
+                    res.json(items)
+                })
+        });
+});
 
 
 

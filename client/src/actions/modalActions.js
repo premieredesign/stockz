@@ -2,7 +2,8 @@ import {SHOW_MODAL} from "./types";
 
 
 
-// Login User
+
+// Show Modal
 export const showModal = (isShowing) => {
     return {
         type: SHOW_MODAL,
