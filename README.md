@@ -1,4 +1,4 @@
-![alt text](http://url/to/img.png)
+![alt text](https://s3.us-east-2.amazonaws.com/stockz/Screen+Shot+2019-05-01+at+3.24.42+PM.png)
 # Stockz
 StockX coding challenge for Interview
 
